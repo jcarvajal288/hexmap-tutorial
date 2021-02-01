@@ -49,12 +49,33 @@ public class HexGrid : MonoBehaviour
         position.y = 0f;
         position.z = z * (HexMetrics.outerRadius * 1.5f);
 
+        // set position and coordinates
         HexCell cell = cells[i] = Instantiate<HexCell>(cellPrefab);
         cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
+
         cell.color = defaultColor;
 
+        // attach neighbors
+        if (x > 0) { // set western neighbor if this cell is not on the western border
+            cell.SetNeighbor(HexDirection.W, cells[i - 1]);
+        }
+        if (z > 0) { // set southern neighbors if this cell is not on the southern border
+            if ((z & 1) == 0) { // deal with hex rows alternating back and forth
+                cell.SetNeighbor(HexDirection.SE, cells[i - width]);
+                if (x > 0) {
+                    cell.SetNeighbor(HexDirection.SW, cells[i - width - 1]);
+                }
+            } else {
+                cell.SetNeighbor(HexDirection.SW, cells[i - width]);
+                if (x < width - 1) { // if this cell is not on the eastern border
+                    cell.SetNeighbor(HexDirection.SE, cells[i - width + 1]);
+                }
+            }
+        }
+
+        // add label
         Text label = Instantiate<Text>(cellLabelPrefab);
         label.rectTransform.SetParent(gridCanvas.transform, false);
         label.rectTransform.anchoredPosition =
