@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-// this is supposed to show the coordinates in the inspector for each HexCell.  
-// It doesn't seem to work in this version of Unity
-
 [CustomPropertyDrawer(typeof(HexCoordinates))]
 public class HexCoordinatesDrawer : PropertyDrawer
 {
@@ -12,7 +9,7 @@ public class HexCoordinatesDrawer : PropertyDrawer
             property.FindPropertyRelative("x").intValue,
             property.FindPropertyRelative("z").intValue
         );
+        position = EditorGUI.PrefixLabel(position, label);
         GUI.Label(position, coordinates.ToString());
-        //base.OnGUI(position, property, label);
     }
 }

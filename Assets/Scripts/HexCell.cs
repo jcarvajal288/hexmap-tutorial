@@ -2,6 +2,7 @@
 
 public class HexCell : MonoBehaviour
 {
+    [SerializeField]
     internal HexCoordinates coordinates;
     internal Color color;
 
