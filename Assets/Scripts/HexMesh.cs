@@ -52,11 +52,11 @@ public class HexMesh : MonoBehaviour
         Vector3 e2 = Vector3.Lerp(v1, v2, 2f / 3f);
 
         // create solid inner triangle
-        AddTriangle(center, v1, e2 );
+        AddTriangle(center, v1, e1);
         AddTriangleColor(cell.color);
-        AddTriangle(center, e1, e2 );
+        AddTriangle(center, e1, e2);
         AddTriangleColor(cell.color);
-        AddTriangle(center, e2, v2 );
+        AddTriangle(center, e2, v2);
         AddTriangleColor(cell.color);
 
         if (direction <= HexDirection.SE) {
