@@ -36,6 +36,7 @@ public class HexMesh : MonoBehaviour
     }
 
     void Triangulate(HexCell cell) {
+        Vector3 center = cell.Position;
         for (HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++) {
             Triangulate(d, cell);
         }
@@ -63,7 +64,7 @@ public class HexMesh : MonoBehaviour
         Vector3 bridge = HexMetrics.GetBridge(direction);
         Vector3 v3 = v1 + bridge;
         Vector3 v4 = v2 + bridge;
-        v3.y = v4.y = neighbor.Elevation * HexMetrics.elevationStep;
+        v3.y = v4.y = neighbor.Position.y;
 
         if (cell.GetEdgeType(direction) == HexEdgeType.Slope) {
             TriangulateEdgeTerraces(v1, v2, cell, v3, v4, neighbor);
@@ -75,7 +76,7 @@ public class HexMesh : MonoBehaviour
         HexCell nextNeighbor = cell.GetNeighbor(direction.Next());
         if (direction <= HexDirection.E && nextNeighbor != null) {
             Vector3 v5 = v2 + HexMetrics.GetBridge(direction.Next());
-            v5.y = nextNeighbor.Elevation * HexMetrics.elevationStep;
+            v5.y = nextNeighbor.Position.y;
 
             if (cell.Elevation <= neighbor.Elevation) {
                 if (cell.Elevation <= nextNeighbor.Elevation) {
@@ -291,9 +292,6 @@ public class HexMesh : MonoBehaviour
         vertices.Add(Perturb(v1));
         vertices.Add(Perturb(v2));
         vertices.Add(Perturb(v3));
-        //vertices.Add(v1);
-        //vertices.Add(v2);
-        //vertices.Add(v3);
         triangles.Add(vertexIndex);
         triangles.Add(vertexIndex + 1);
         triangles.Add(vertexIndex + 2);
@@ -305,10 +303,6 @@ public class HexMesh : MonoBehaviour
         vertices.Add(Perturb(v2));
         vertices.Add(Perturb(v3));
         vertices.Add(Perturb(v4));
-        //vertices.Add(v1);
-        //vertices.Add(v2);
-        //vertices.Add(v3);
-        //vertices.Add(v4);
         triangles.Add(vertexIndex);
         triangles.Add(vertexIndex + 2);
         triangles.Add(vertexIndex + 1);
@@ -335,7 +329,7 @@ public class HexMesh : MonoBehaviour
         Vector4 sample = HexMetrics.SampleNoise(position);
         // sample is between 0 and 1.  (* 2f - 1f) changes the range to between -1 and 1
         position.x += (sample.x * 2f - 1f) * HexMetrics.cellPerturbStrength;
-        position.y += (sample.y * 2f - 1f) * HexMetrics.cellPerturbStrength;
+        //position.y += (sample.y * 2f - 1f) * HexMetrics.cellPerturbStrength;
         position.z += (sample.z * 2f - 1f) * HexMetrics.cellPerturbStrength;
         return position;
     }
