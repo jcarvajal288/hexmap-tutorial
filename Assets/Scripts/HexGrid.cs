@@ -71,7 +71,7 @@ public class HexGrid : MonoBehaviour
         cell.transform.localPosition = position;
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
 
-        cell.color = defaultColor;
+        cell.Color = defaultColor;
 
         // attach neighbors
         if (x > 0) { // set western neighbor if this cell is not on the western border
