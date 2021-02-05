@@ -269,12 +269,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb9d8748d8f608d4b825bcc4921bf7fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 6
-  height: 6
+  chunkCountX: 4
+  chunkCountZ: 3
   cellPrefab: {fileID: 8432659598497322079, guid: dec8bacc6687c4b4f9940e705ba38634,
     type: 3}
   cellLabelPrefab: {fileID: 4045079133941414780, guid: 0b1728163164d6e409166f86a57bb2a2,
     type: 3}
+  chunkPrefab: {fileID: 0}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   noiseSource: {fileID: 2800000, guid: 987b21e32085136478a64ca06a2e7ec0, type: 3}
 --- !u!4 &188904942
