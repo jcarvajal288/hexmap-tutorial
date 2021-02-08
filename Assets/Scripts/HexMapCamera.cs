@@ -5,6 +5,8 @@ public class HexMapCamera : MonoBehaviour
     public float stickMinZoom, stickMaxZoom;
     public float swivelMinZoom, swivelMaxZoom;
     public float moveSpeedMinZoom, moveSpeedMaxZoom;
+    public float rotationSpeed;
+    public float rotationAngle;
 
     public HexGrid grid;
 
@@ -21,6 +23,11 @@ public class HexMapCamera : MonoBehaviour
         float zoomDelta = Input.GetAxis("Mouse ScrollWheel");
         if (zoomDelta != 0f) {
             AdjustZoom(zoomDelta);
+        }
+
+        float rotationDelta = Input.GetAxis("Rotation");
+        if (rotationDelta != 0f) {
+            AdjustRotation(rotationDelta);
         }
 
         float xDelta = Input.GetAxis("Horizontal");
@@ -52,6 +59,16 @@ public class HexMapCamera : MonoBehaviour
         position.z = Mathf.Clamp(position.z, 0f, zMax);
 
         return position;
+    }
+
+    void AdjustRotation(float delta) {
+        rotationAngle += delta * rotationSpeed * Time.deltaTime;
+        if (rotationAngle < 0f) {
+            rotationAngle += 360f;
+        } else if (rotationAngle >= 360f) {
+            rotationAngle -= 360f;
+        }
+        transform.localRotation = Quaternion.Euler(0f, rotationAngle, 0f);
     }
 
     void AdjustZoom(float delta) {
