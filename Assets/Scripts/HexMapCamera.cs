@@ -38,7 +38,9 @@ public class HexMapCamera : MonoBehaviour
     }
 
     void AdjustPosition(float xDelta, float zDelta) {
-        Vector3 direction = new Vector3(xDelta, 0f, zDelta).normalized;
+        Vector3 direction = 
+            transform.localRotation *
+            new Vector3(xDelta, 0f, zDelta).normalized;
         float damping = Mathf.Max(Mathf.Abs(xDelta), Mathf.Abs(zDelta));
         float distance = 
             Mathf.Lerp(moveSpeedMinZoom, moveSpeedMaxZoom, zoom) * 
