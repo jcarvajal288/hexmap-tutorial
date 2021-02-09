@@ -37,6 +37,10 @@ public class HexMapEditor : MonoBehaviour
         brushSize = (int)size;
     }
 
+    public void ShowUI(bool visible) {
+        hexGrid.ShowUI(visible);
+    }
+
     private void Update() {
         if (Input.GetMouseButton(0) &&
             !EventSystem.current.IsPointerOverGameObject()) {
