@@ -12,6 +12,8 @@ public class HexMapEditor : MonoBehaviour
     bool applyColor;
     bool applyElevation = true;
 
+    int brushSize;
+
     private void Awake() {
         SelectColor(-1);
     }
@@ -31,6 +33,10 @@ public class HexMapEditor : MonoBehaviour
         applyElevation = toggle;
     }
 
+    public void SetBrushSize(float size) {
+        brushSize = (int)size;
+    }
+
     private void Update() {
         if (Input.GetMouseButton(0) &&
             !EventSystem.current.IsPointerOverGameObject()) {
@@ -43,11 +49,30 @@ public class HexMapEditor : MonoBehaviour
         Ray inputRay = Camera.main.ScreenPointToRay(mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(inputRay, out hit)) {
-            EditCell(hexGrid.GetCell(hit.point));
+            EditCells(hexGrid.GetCell(hit.point));
+        }
+    }
+
+    void EditCells(HexCell center) {
+        int centerX = center.coordinates.X;
+        int centerZ = center.coordinates.Z;
+
+        for (int r=0, z=(centerZ - brushSize); z <= centerZ; z++, r++) {
+            for (int x=(centerX - r); x <= (centerX + brushSize); x++) {
+                EditCell(hexGrid.GetCell(new HexCoordinates(x, z)));
+            }
+        }
+        for (int r=0, z=(centerZ + brushSize); z > centerZ; z--, r++) {
+            for(int x=(centerX - brushSize); x <= (centerX + r); x++) {
+                EditCell(hexGrid.GetCell(new HexCoordinates(x, z)));
+            }
         }
     }
 
     void EditCell(HexCell cell) {
+        if (!cell) {
+            return;
+        }
         if (applyColor) {
             cell.Color = activeColor;
         }
